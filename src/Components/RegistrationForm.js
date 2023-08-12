@@ -47,7 +47,7 @@ const Register = () => {
       const { email, username, password, role, pickupAddress } = formData;
       console.log(formData);
       const result = await authService.register(email, username, password, role, pickupAddress);
-      // console.log(result);
+      console.log(result);
       toast.success("Register Successful", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 1000,

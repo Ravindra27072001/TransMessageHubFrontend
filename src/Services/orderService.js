@@ -1,13 +1,13 @@
 // services/orderService.js
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api';
+// const API_URL = 'http://localhost:3000/api';
 
 const orderService = {
 
   sendOrdersToTransporter: async (messageData) => {
     try {
-      const response = await axios.post(`${API_URL}/sendOrdersToTransporter`, messageData);
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/sendOrdersToTransporter`, messageData);
       return response.data;
     } catch (error) {
       throw error.response.data;
@@ -17,7 +17,7 @@ const orderService = {
   getOrders: async (email) => {
     try {
       // console.log("jhdfjhsdhfvsdhvhsmdvc")
-      const response = await axios.get(`${API_URL}/getOrders/${email}`);
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/getOrders/${email}`);
       return response.data;
     } catch (error) {
       throw error.response.data;
@@ -27,7 +27,7 @@ const orderService = {
   getOrdersByOrderId: async (orderId) => {
     try {
       // console.log("jhdfjhsdhfvsdhvhsmdvc")
-      const response = await axios.get(`${API_URL}/getOrders/${orderId}`);
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/getOrders/${orderId}`);
       return response.data;
     } catch (error) {
       throw error.response.data;
@@ -37,7 +37,7 @@ const orderService = {
 
   replyToOrder: async (orderId, price) => {
     try {
-      await axios.post(`${API_URL}/reply`, { orderId, price });
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/reply`, { orderId, price });
     } catch (error) {
       throw error.response.data;
     }
