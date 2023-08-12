@@ -1,15 +1,15 @@
-// src/components/Login.js
 import React, { useState } from 'react';
-import {Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import authService from '../Services/authService';
 import '../Css/RegistrationForm.css'
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 const Login = () => {
+
   const navigate = useNavigate();
+  
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -29,27 +29,28 @@ const Login = () => {
       const { email, password } = formData;
       const response = await authService.login(email, password);
       console.log(response)
+
       if (response) {
-        // navigate('/dashboard'); // Redirect to dashboard page after successful login
-        // console.log(userRole);
         localStorage.setItem('token', response.data.token);
-        const userRole = response.data.role; // Replace with actual role retrieval logic
+
+        const userRole = response.data.role;
         toast.success("Login Successful", {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 1000,
         });
+
         if (userRole === 'Manufacturer') {
           localStorage.setItem('manufacturerEmail', response.data.email);
           setTimeout(() => {
             navigate('/manufacturer-dashboard');
           }, 1500);
-          
+
         } else if (userRole === 'Transporter') {
           localStorage.setItem('transporterEmail', response.data.email);
           setTimeout(() => {
             navigate('/transporter-dashboard');
           }, 1500);
-          
+
         }
       }
     } catch (error) {
@@ -69,7 +70,7 @@ const Login = () => {
           <label>Email:</label>
           <input type="email" name="email" value={formData.email} onChange={handleChange} />
         </div>
-        <div className="form-group"> 
+        <div className="form-group">
           <label>Password:</label>
           <input type="password" name="password" value={formData.password} onChange={handleChange} />
         </div>

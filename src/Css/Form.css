@@ -1,5 +1,3 @@
-/* ManufacturerForm.css */
-
 .form-container {
   width: 60%;
   margin: 40px auto;
@@ -59,5 +57,3 @@ button {
 button:hover {
   background-color: #0056b3;
 }
-
-/* ... (any other custom styles) ... */

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import '../Css/ManufacturerDashboard.css';
+
 import manufacturerService from '../Services/manufacturerService';
 import orderService from '../Services/orderService';
 import messageService from '../Services/messageService';
@@ -11,23 +12,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const ManufacturerForm = () => {
 
-    const [messages, setMessages] = useState([]);
     const [socket, setSocket] = useState(null);
     const [replies, setReplies] = useState([]);
-
-    const connectSocket = () => {
-        const newSocket = io('http://localhost:3000');
-        newSocket.emit('joinManufacturer', localStorage.getItem('manufacturerEmail'));
-        setSocket(newSocket);
-    };
-
-    const generateUniqueOrderID = () => {
-        const prefix = 'XB';
-        const randomNumber = Math.floor(Math.random() * 1000);
-        return `${prefix}${randomNumber}`;
-    };
-
-
     const [transporters, setTransporters] = useState([]);
     const [pickupAddress, setPickupAddress] = useState('');
 
@@ -47,7 +33,6 @@ const ManufacturerForm = () => {
         if (socket) {
             socket.on('receiveReply', async (data) => {
                 console.log('Received reply from transporter:', data);
-                console.log(data)
 
                 const messageData = {
                     orderID: data.orderID,
@@ -60,66 +45,58 @@ const ManufacturerForm = () => {
                     manufacturer: data.manufacturer,
                 };
                 try {
-                    console.log("wedsjghnbds")
                     await messageService.replyFromTransporter(messageData);
-                    console.log("ejhgdghsah")
-                    // showReplies();
-
                 } catch (error) {
                     console.error('Error fetching replies:', error);
                 }
 
-
-                // getOrdersByOrderId();
             });
         }
     }, [socket]);
 
+    const connectSocket = () => {
+        const newSocket = io('http://localhost:3000');
+        newSocket.emit('joinManufacturer', localStorage.getItem('manufacturerEmail'));
+        setSocket(newSocket);
+    };
+
+    const generateUniqueOrderID = () => {
+        const prefix = 'XB';
+        const randomNumber = Math.floor(Math.random() * 1000);
+        return `${prefix}${randomNumber}`;
+    };
+
     const showReplies = async () => {
         try {
-            console.log("object")
             const response = await messageService.showReplies(localStorage.getItem('manufacturerEmail'));
             console.log(response.data);
             setReplies(response.data);
-            console.log(replies);
         } catch (error) {
-            console.error('Error fetching orderId:', error);
+            console.error('Error fetching replies:', error);
         }
     }
 
     const fetchTransporters = async () => {
         try {
             const response = await manufacturerService.getTransportersLists();
-            console.log(response);
-            console.log(response[0].email)
+            // console.log(response);
 
             const data = response.filter(user => user.role === 'Transporter');
-            console.log(data);
+            // console.log(data);
 
 
             const userData = response.find((user) => user.email === localStorage.getItem('manufacturerEmail'));
-            console.log(userData.pickupAddress);
+            // console.log(userData.pickupAddress);
 
             if (userData) {
                 setPickupAddress(userData.pickupAddress || '');
             }
-
             setTransporters(data);
-
-            const getOrders = await orderService.getOrders(localStorage.getItem('manufacturerEmail'));
-            console.log(getOrders);
-            setMessages(getOrders);
-
-            // console.log(messages);
-
 
         } catch (error) {
             console.error('Error fetching transporters:', error);
         }
     };
-
-
-
 
     const handleSubmit = async (values) => {
         try {
@@ -132,37 +109,25 @@ const ManufacturerForm = () => {
                 transporter: values.transporter,
                 manufacturer: localStorage.getItem('manufacturerEmail'),
             };
-            console.log(messageData);
-            console.log(localStorage.getItem('manufacturerEmail'));
+            // console.log(messageData);
+            // console.log(localStorage.getItem('manufacturerEmail'));
             const response = await orderService.sendOrdersToTransporter(messageData);
-
             console.log(response)
-
-
-            // const newMessage = {
-            //     ...messageData,
-            //     sentBy: 'Manufacturer', // Indicate who sent the message
-            // };
 
             toast.success("Order sent successfully", {
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 1000,
             });
 
-            console.log('Message sent successfully:');
+            // console.log('Message sent successfully:');
         } catch (error) {
-            toast.error("Something went wrong..", {
+            toast.error("Something went wrong...", {
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 1000,
             });
-            console.error('Error sending message:', error);
+            // console.error('Error sending message:', error);
         }
     }
-
-
-    console.log(pickupAddress, "Pickup")
-    console.log(replies);
-    console.log(messages)
 
     return (
         <div>
@@ -179,7 +144,7 @@ const ManufacturerForm = () => {
                         }}
                         onSubmit={handleSubmit}
                     >
-                        {({ values, handleChange, handleSubmit }) => (
+                        {({ values, handleChange }) => (
                             <Form>
 
                                 <div className="form-row selectors">

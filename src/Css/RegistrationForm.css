@@ -30,7 +30,7 @@ input[type="email"],
 input[type="password"],
 select {
   width: 90%;
-  padding: 8px; /* Adjusted padding */
+  padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 14px;
@@ -60,7 +60,6 @@ button.register-button:hover {
   background-color: #0056b3;
 }
 
-/* Adjust the styles as needed for responsive design */
 @media (max-width: 300px) {
   .register-form {
     width: 100%;
