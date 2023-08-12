@@ -1,0 +1,194 @@
+/* ManufacturerForm.css */
+
+.form-container {
+  width: 80%;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-row {
+  margin-bottom: 15px;
+}
+
+.selectors {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.selectors label {
+  flex-basis: 100%;
+  margin-bottom: 5px;
+}
+
+.quantity-transporter {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.quantity-transporter label,
+.transporter-dropdown label {
+  flex-basis: 50%;
+  margin-bottom: 5px;
+}
+
+.transporter-dropdown select {
+  flex-basis: 100%;
+  padding: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.right-side {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-left: 20px;
+  width: 300px;
+}
+
+.additional-info label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.additional-info input,
+.additional-info select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.additional-info button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.additional-info button:hover {
+  background-color: #0056b3;
+}
+
+.received-reply {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-radius: 5px;
+}
+
+.messages-box {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.messages-box h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.messages {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.message {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.message.received {
+  background-color: #edf7ff;
+  border: 1px solid #b3d4fc;
+}
+
+.message-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.order-id,
+.location,
+.quantity,
+.address,
+.transporter {
+  margin: 5px 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.view-content-button {
+  background-color: #007bff;
+  width: 20%;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.message-content {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 10px;
+  background-color: #f5f5f5;
+}
+
+.order-id,
+.location,
+.quantity,
+.address,
+.transporter,
+.price {
+  margin: 5px 0;
+}
+
+.price {
+  font-weight: bold;
+}
+
+hr {
+  margin: 10px 0;
+  border: none;
+  border-top: 1px solid #ccc;
+}
+
+
+/* ... (any other custom styles) ... */

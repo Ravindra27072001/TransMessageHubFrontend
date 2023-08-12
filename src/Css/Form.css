@@ -1,0 +1,63 @@
+/* ManufacturerForm.css */
+
+.form-container {
+  width: 60%;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-row {
+  margin-bottom: 15px;
+}
+
+.selectors {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.selectors label {
+  flex-basis: 100%;
+  margin-bottom: 5px;
+}
+
+.quantity-transporter {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.quantity-transporter label,
+.transporter-dropdown label {
+  flex-basis: 50%;
+  margin-bottom: 5px;
+}
+
+.transporter-dropdown select {
+  flex-basis: 100%;
+  padding: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* ... (any other custom styles) ... */
