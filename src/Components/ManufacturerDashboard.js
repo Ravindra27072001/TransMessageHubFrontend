@@ -3,7 +3,6 @@ import { Formik, Form, Field } from 'formik';
 import '../Css/ManufacturerDashboard.css';
 
 import manufacturerService from '../Services/manufacturerService';
-import orderService from '../Services/orderService';
 import messageService from '../Services/messageService';
 import io from 'socket.io-client';
 
@@ -16,6 +15,8 @@ const ManufacturerForm = () => {
     const [replies, setReplies] = useState([]);
     const [transporters, setTransporters] = useState([]);
     const [pickupAddress, setPickupAddress] = useState('');
+    const [refreshPage, setRefreshPage] = useState(false);
+
 
     useEffect(() => {
         fetchTransporters();
@@ -27,12 +28,13 @@ const ManufacturerForm = () => {
                 socket.disconnect();
             }
         };
-    }, []);
+    }, [refreshPage]);
 
     useEffect(() => {
         if (socket) {
-            socket.on('receiveReply', async (data) => {
+            socket.on('receiveReplyFromTransporter', async (data) => {
                 console.log('Received reply from transporter:', data);
+                setRefreshPage(prevState => !prevState);
 
                 const messageData = {
                     orderID: data.orderID,
@@ -46,6 +48,7 @@ const ManufacturerForm = () => {
                 };
                 try {
                     await messageService.replyFromTransporter(messageData);
+                    
                 } catch (error) {
                     console.error('Error fetching replies:', error);
                 }
@@ -111,8 +114,12 @@ const ManufacturerForm = () => {
             };
             // console.log(messageData);
             // console.log(localStorage.getItem('manufacturerEmail'));
-            const response = await orderService.sendOrdersToTransporter(messageData);
-            console.log(response)
+            // const response = await orderService.sendOrdersToTransporter(messageData);
+            // console.log(response)
+
+            if (socket) {
+                socket.emit('sendOrderToTransporter', messageData);
+            }    
 
             toast.success("Order sent successfully", {
                 position: toast.POSITION.TOP_CENTER,

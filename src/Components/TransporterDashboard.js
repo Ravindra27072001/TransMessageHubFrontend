@@ -2,31 +2,38 @@ import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client'
 import '../Css/TransporterDashboard.css';
 import transporterService from '../Services/transporterService';
+import orderService from '../Services/orderService';
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const TransporterDashboard = () => {
-    
+
     const [socket, setSocket] = useState(null);
     const [orders, setOrders] = useState([]);
     const [selectedOrderId, setSelectedOrderId] = useState('');
     const [price, setPrice] = useState('');
+    const [refreshDashboard, setRefreshDashboard] = useState(false);
 
     useEffect(() => {
         fetchOrders();
         const newSocket = io('http://localhost:3000');
+        newSocket.emit('joinTransporter', localStorage.getItem('transporterEmail'));
         setSocket(newSocket);
 
         return () => {
             newSocket.disconnect();
         };
-    }, []);
+    }, [refreshDashboard]);
 
     useEffect(() => {
         if (socket) {
-            socket.on('receiveReply', (replyMessage) => {
-                console.log('Received reply from transporter:', replyMessage);
+            socket.on('receiveReplyFromManufacturer', async (replyMessage) => {
+                console.log('Received reply from Manufacturer:', replyMessage);
+
+                const response = await orderService.sendOrdersToTransporter(replyMessage);
+                console.log(response)
+                setRefreshDashboard(prevState => !prevState);
             });
         }
     }, [socket]);
@@ -63,12 +70,12 @@ const TransporterDashboard = () => {
             manufacturer: order.manufacturer,
             price: price,
             transporter: localStorage.getItem('transporterEmail'),
-          };
+        };
 
         console.log(replyData);
 
         if (socket) {
-            socket.emit('sendReply', replyData);
+            socket.emit('sendReplyToManufacturer', replyData);
         }
 
         const response = await transporterService.deleteOrders(selectedOrderId);
